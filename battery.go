@@ -10,6 +10,7 @@ import (
 	"time"
 )
 
+// Battery provides the information for a battery
 type Battery struct {
 	Consumption      float64 // (watts) current power flowing into/out of the battery
 	Name             string
@@ -20,6 +21,7 @@ type Battery struct {
 	Status           string
 }
 
+// New instantiates a Battery object for the passed in string representing a system's battery
 func New(name string) (*Battery, error) {
 	battery := &Battery{
 		Name:     name,
@@ -49,6 +51,7 @@ func getInt(filepath string) (value int, err error) {
 	return strconv.Atoi(strings.TrimSpace(string(file)))
 }
 
+// GetStatus updates the Battery object with the current state of the battery
 func (battery *Battery) GetStatus() (err error) {
 	// get status
 	file, err := ioutil.ReadFile(path.Join(battery.Filepath, "status"))
