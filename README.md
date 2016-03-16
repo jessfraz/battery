@@ -1,5 +1,7 @@
 # Battery
 
+[![Circle CI](https://circleci.com/gh/jfrazelle/battery.svg?style=svg)](https://circleci.com/gh/jfrazelle/battery)
+
 Battery status getter written in Go.
 
 ```console
