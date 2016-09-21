@@ -1,10 +1,26 @@
-FROM golang:latest
-MAINTAINER Jess Frazelle <jess@docker.com>
+FROM alpine:latest
+MAINTAINER Jessica Frazelle <jess@linux.com>
 
-RUN go get github.com/Sirupsen/logrus
+ENV PATH /go/bin:/usr/local/go/bin:$PATH
+ENV GOPATH /go
 
-ADD . /go/src/github.com/jfrazelle/battery
-RUN cd /go/src/github.com/jfrazelle/battery && go install . ./...
-ENV PATH $PATH:/go/bin
+RUN	apk add --no-cache \
+	ca-certificates
 
-ENTRYPOINT ["battery"]
+COPY . /go/src/github.com/jfrazelle/battery
+
+RUN set -x \
+	&& apk add --no-cache --virtual .build-deps \
+		go \
+		git \
+		gcc \
+		libc-dev \
+		libgcc \
+	&& cd /go/src/github.com/jfrazelle/battery \
+	&& go build -o /usr/bin/battery . \
+	&& apk del .build-deps \
+	&& rm -rf /go \
+	&& echo "Build complete."
+
+
+ENTRYPOINT [ "battery" ]
