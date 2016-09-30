@@ -1,6 +1,6 @@
 # Battery
 
-[![Travis CI](https://travis-ci.org/jfrazelle/battery.svg?branch=master)](https://travis-ci.org/jfrazelle/battery)
+[![Travis CI](https://travis-ci.org/jessfraz/battery.svg?branch=master)](https://travis-ci.org/jessfraz/battery)
 
 Battery status getter written in Go.
 
