@@ -29,7 +29,7 @@ func New(name string) (*Battery, error) {
 	}
 	// make sure the battery exists
 	if _, err := os.Stat(battery.Filepath); os.IsNotExist(err) {
-		return battery, fmt.Errorf("Battery %s does not exist, please specify a battery name with -name.", name)
+		return battery, fmt.Errorf("Battery %s does not exist, please specify a battery name with -name", name)
 	}
 
 	return battery, nil

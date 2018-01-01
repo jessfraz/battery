@@ -1,4 +1,4 @@
-FROM alpine:latest
+FROM golang:alpine as builder
 MAINTAINER Jessica Frazelle <jess@linux.com>
 
 ENV PATH /go/bin:/usr/local/go/bin:$PATH
@@ -11,16 +11,22 @@ COPY . /go/src/github.com/jessfraz/battery
 
 RUN set -x \
 	&& apk add --no-cache --virtual .build-deps \
-		go \
 		git \
 		gcc \
 		libc-dev \
 		libgcc \
+		make \
 	&& cd /go/src/github.com/jessfraz/battery \
-	&& go build -o /usr/bin/battery . \
+	&& make static \
+	&& mv battery /usr/bin/battery \
 	&& apk del .build-deps \
 	&& rm -rf /go \
 	&& echo "Build complete."
 
+FROM scratch
+
+COPY --from=builder /usr/bin/battery /usr/bin/battery
+COPY --from=builder /etc/ssl/certs/ /etc/ssl/certs
 
 ENTRYPOINT [ "battery" ]
+CMD [ "--help" ]

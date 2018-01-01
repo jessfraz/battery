@@ -3,49 +3,69 @@ package main
 import (
 	"flag"
 	"fmt"
+	"os"
 
-	log "github.com/Sirupsen/logrus"
+	"github.com/Sirupsen/logrus"
+	"github.com/jessfraz/battery/version"
 )
 
 const (
-	// VERSION is the binary version
-	VERSION = "v0.1.0"
+	// BANNER is what is printed for help/info output.
+	BANNER = ` _           _   _
+| |__   __ _| |_| |_ ___ _ __ _   _
+| '_ \ / _` + "`" + ` | __| __/ _ \ '__| | | |
+| |_) | (_| | |_| ||  __/ |  | |_| |
+|_.__/ \__,_|\__|\__\___|_|   \__, |
+                              |___/
+
+ Linux battery status checker.
+ Version: %s
+ Build: %s
+
+`
 )
 
 var (
-	name    string
-	debug   bool
-	version bool
+	name  string
+	debug bool
+	vrsn  bool
 )
 
 func init() {
 	// parse flags
-	flag.BoolVar(&version, "version", false, "print version and exit")
-	flag.BoolVar(&version, "v", false, "print version and exit (shorthand)")
-	flag.BoolVar(&debug, "d", false, "run in debug mode")
 	flag.StringVar(&name, "name", "BAT0", "name of your battery")
+
+	flag.BoolVar(&vrsn, "version", false, "print version and exit")
+	flag.BoolVar(&vrsn, "v", false, "print version and exit (shorthand)")
+	flag.BoolVar(&debug, "d", false, "run in debug mode")
+
+	flag.Usage = func() {
+		fmt.Fprint(os.Stderr, fmt.Sprintf(BANNER, version.VERSION, version.GITCOMMIT))
+		flag.PrintDefaults()
+	}
+
 	flag.Parse()
+
+	if vrsn {
+		fmt.Printf("battery version %s, build %s", version.VERSION, version.GITCOMMIT)
+		os.Exit(0)
+	}
+
+	// set log level
+	if debug {
+		logrus.SetLevel(logrus.DebugLevel)
+	}
 }
 
 func main() {
-	// set log level
-	if debug {
-		log.SetLevel(log.DebugLevel)
-	}
-
-	if version {
-		fmt.Println(VERSION)
-		return
-	}
-
 	battery, err := New(name)
 	if err != nil {
-		log.Fatal(err)
+		logrus.Fatal(err)
 	}
 
 	if err := battery.GetStatus(); err != nil {
-		log.Fatal(err)
+		logrus.Fatal(err)
 	}
 
-	log.Infoln(battery.String())
+	logrus.Infoln(battery.String())
 }
