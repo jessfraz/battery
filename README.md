@@ -8,7 +8,7 @@ Battery status getter written in Go.
 
 #### Binaries
 
-- **linux** [386](https://github.com/jessfraz/battery/releases/download/v0.0.0/battery-linux-386) / [amd64](https://github.com/jessfraz/battery/releases/download/v0.0.0/battery-linux-amd64) / [arm](https://github.com/jessfraz/battery/releases/download/v0.0.0/battery-linux-arm) / [arm64](https://github.com/jessfraz/battery/releases/download/v0.0.0/battery-linux-arm64)
+- **linux** [386](https://github.com/jessfraz/battery/releases/download/v0.1.0/battery-linux-386) / [amd64](https://github.com/jessfraz/battery/releases/download/v0.1.0/battery-linux-amd64) / [arm](https://github.com/jessfraz/battery/releases/download/v0.1.0/battery-linux-arm) / [arm64](https://github.com/jessfraz/battery/releases/download/v0.1.0/battery-linux-arm64)
 
 #### Via Go
 
@@ -28,7 +28,7 @@ $ battery -h
                               |___/
 
  Linux battery status checker.
- Version: v0.0.0
+ Version: v0.1.0
  Build: 00bf69e
 
   -d    run in debug mode
