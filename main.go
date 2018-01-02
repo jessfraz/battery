@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/Sirupsen/logrus"
 	"github.com/jessfraz/battery/version"
+	"github.com/sirupsen/logrus"
 )
 
 const (
