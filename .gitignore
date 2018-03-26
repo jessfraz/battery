@@ -44,3 +44,7 @@ Icon
 
 battery
 cross/
+
+# Go coverage results
+coverage.txt
+profile.out
