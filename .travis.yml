@@ -1,41 +1,37 @@
----
-  language: go
-  sudo: false
-  notifications:
-    email: true
-  go:
-    - 1.x
-    - tip
-  matrix:
-    allow_failures:
-      - go: tip
-    fast_finish: true
-  install:
-    - go get github.com/golang/lint/golint
-    - go get honnef.co/go/tools/cmd/staticcheck
-  script:
-    - make all
-    - make cover
-    - make release
-  after_success:
-    - bash <(curl -s https://codecov.io/bash)
-  deploy:
-    provider: releases
-    api_key:
-      secure: "B0Yk6O6SS+t0281+sr63CfX9UcGNS/6rvaxmP9oZidcNZ7tLkFbtIDFsX9AYWsrW389PYnKv1z7Nc9Nm5Qq8KxoBQxpuGKXSehhmsVBOj+rbq42zMSGZoFP6ih6uEUcJpGu6EV2yHBe5VQ5IusxyodYopa5n04+IPUSMO3xS1WaAvcfFvRfFm7VKVzpaTHKGVmR9LFZxa9n/bKebYQTgVwt4+0dfhlIjtT1gMpSfwjm03fR1EdiTvl3KjfFbXphF83lUehL7uLRO7Hum2vhvzGGfAONGkBcptO2zFNL00DSdzTjpUZibkqy+B26eTc+0YJrfk5P34qio1I/hhJGhaZ7DqX2ygbQiD0z/WBLFJw5DlpCAP01jlaogrP/z3eZvWwMk2SLN3+rErUpZd07lZea8k0ZAFMiPW6e5m9r7N5+bkPmdEOLGXDmnxLT36y2uwy+5BeP5VhUqj+xYRPyThQauQm7FoVCsMA3q92E48DasQWQHhvQ9F2bN91PuhdV34qHI5K+xc/JtgkHgaYWIwqvQdTksVENHgzfQAJnRXLS2aywwSnQ37a+z/XOppsIYn5uu1wKY3/fjRTXTu0f0CnIjdY2wTipLagPbZYt3pXj/nDZj8Rcth4OpTVpiljLkTzl4kG0MrjXAtQp14q1Dcf9iA9YLr6wxqGhhNgCHEf0="
-    file:
-      - cross/battery-linux-amd64.md5
-      - cross/battery-linux-arm
-      - cross/battery-linux-arm64.sha256
-      - cross/battery-linux-arm.sha256
-      - cross/battery-linux-386.sha256
-      - cross/battery-linux-arm64.md5
-      - cross/battery-linux-arm64
-      - cross/battery-linux-amd64.sha256
-      - cross/battery-linux-386.md5
-      - cross/battery-linux-arm.md5
-      - cross/battery-linux-386
-      - cross/battery-linux-amd64
-    skip_cleanup: true
-    on:
-      tags: true
+language: go
+sudo: false
+go:
+  - 1.10.x
+before_install:
+  - go get github.com/golang/lint/golint
+  - go get honnef.co/go/tools/cmd/staticcheck
+jobs:
+  include:
+    - script: make all
+    - stage: Run Test Coverage
+      script: make cover
+      after_success: bash <(curl -s https://codecov.io/bash)
+    - stage: Build Release
+      script:
+        - make release
+        - echo "Deploying to GitHub releases ..."
+      deploy:
+        provider: releases
+        file:
+          - cross/battery-linux-amd64.md5
+          - cross/battery-linux-arm
+          - cross/battery-linux-arm64.sha256
+          - cross/battery-linux-arm.sha256
+          - cross/battery-linux-386.sha256
+          - cross/battery-linux-arm64.md5
+          - cross/battery-linux-arm64
+          - cross/battery-linux-amd64.sha256
+          - cross/battery-linux-386.md5
+          - cross/battery-linux-arm.md5
+          - cross/battery-linux-386
+          - cross/battery-linux-amd64
+        skip_cleanup: true
+        on:
+          tags: true
+        api_key:
+          secure: "B0Yk6O6SS+t0281+sr63CfX9UcGNS/6rvaxmP9oZidcNZ7tLkFbtIDFsX9AYWsrW389PYnKv1z7Nc9Nm5Qq8KxoBQxpuGKXSehhmsVBOj+rbq42zMSGZoFP6ih6uEUcJpGu6EV2yHBe5VQ5IusxyodYopa5n04+IPUSMO3xS1WaAvcfFvRfFm7VKVzpaTHKGVmR9LFZxa9n/bKebYQTgVwt4+0dfhlIjtT1gMpSfwjm03fR1EdiTvl3KjfFbXphF83lUehL7uLRO7Hum2vhvzGGfAONGkBcptO2zFNL00DSdzTjpUZibkqy+B26eTc+0YJrfk5P34qio1I/hhJGhaZ7DqX2ygbQiD0z/WBLFJw5DlpCAP01jlaogrP/z3eZvWwMk2SLN3+rErUpZd07lZea8k0ZAFMiPW6e5m9r7N5+bkPmdEOLGXDmnxLT36y2uwy+5BeP5VhUqj+xYRPyThQauQm7FoVCsMA3q92E48DasQWQHhvQ9F2bN91PuhdV34qHI5K+xc/JtgkHgaYWIwqvQdTksVENHgzfQAJnRXLS2aywwSnQ37a+z/XOppsIYn5uu1wKY3/fjRTXTu0f0CnIjdY2wTipLagPbZYt3pXj/nDZj8Rcth4OpTVpiljLkTzl4kG0MrjXAtQp14q1Dcf9iA9YLr6wxqGhhNgCHEf0="
