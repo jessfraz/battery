@@ -1,18 +1,24 @@
 # Battery
 
-[![Travis CI](https://travis-ci.org/jessfraz/battery.svg?branch=master)](https://travis-ci.org/jessfraz/battery)
+[![Travis CI](https://img.shields.io/travis/jessfraz/battery.svg?style=for-the-badge)](https://travis-ci.org/jessfraz/battery)
+[![GoDoc](https://img.shields.io/badge/godoc-reference-5272B4.svg?style=for-the-badge)](https://godoc.org/github.com/jessfraz/battery)
 
 Battery status getter written in Go.
+
+ * [Installation](README.md#installation)
+      * [Binaries](README.md#binaries)
+      * [Via Go](README.md#via-go)
+ * [Usage](README.md#usage)
 
 ## Installation
 
 #### Binaries
 
-- **linux** [386](https://github.com/jessfraz/battery/releases/download/v0.2.1/battery-linux-386) / [amd64](https://github.com/jessfraz/battery/releases/download/v0.2.1/battery-linux-amd64) / [arm](https://github.com/jessfraz/battery/releases/download/v0.2.1/battery-linux-arm) / [arm64](https://github.com/jessfraz/battery/releases/download/v0.2.1/battery-linux-arm64)
+For installation instructions from binaries please visit the [Releases Page](https://github.com/jessfraz/battery/releases).
 
 #### Via Go
 
-```bash
+```console
 $ go get github.com/jessfraz/battery
 ```
 

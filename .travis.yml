@@ -18,18 +18,18 @@ jobs:
       deploy:
         provider: releases
         file:
-          - cross/battery-linux-amd64.md5
           - cross/battery-linux-arm
-          - cross/battery-linux-arm64.sha256
-          - cross/battery-linux-arm.sha256
-          - cross/battery-linux-386.sha256
-          - cross/battery-linux-arm64.md5
-          - cross/battery-linux-arm64
-          - cross/battery-linux-amd64.sha256
-          - cross/battery-linux-386.md5
           - cross/battery-linux-arm.md5
-          - cross/battery-linux-386
+          - cross/battery-linux-arm.sha256
+          - cross/battery-linux-arm64
+          - cross/battery-linux-arm64.md5
+          - cross/battery-linux-arm64.sha256
           - cross/battery-linux-amd64
+          - cross/battery-linux-amd64.md5
+          - cross/battery-linux-amd64.sha256
+          - cross/battery-linux-386
+          - cross/battery-linux-386.md5
+          - cross/battery-linux-386.sha256
         skip_cleanup: true
         on:
           tags: true
