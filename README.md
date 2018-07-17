@@ -26,21 +26,16 @@ $ go get github.com/jessfraz/battery
 
 ```console
 $ battery -h
- _           _   _
-| |__   __ _| |_| |_ ___ _ __ _   _
-| '_ \ / _` | __| __/ _ \ '__| | | |
-| |_) | (_| | |_| ||  __/ |  | |_| |
-|_.__/ \__,_|\__|\__\___|_|   \__, |
-                              |___/
+battery -  Linux battery status checker.
 
- Linux battery status checker.
- Version: v0.2.1
- Build: 00bf69e
+Usage: battery <command>
 
-  -d    run in debug mode
-  -name string
-        name of your battery (default "BAT0")
-  -v    print version and exit (shorthand)
-  -version
-        print version and exit
+Flags:
+
+  -d      enable debug logging (default: false)
+  --name  name of your battery (default: BAT0)
+
+Commands:
+
+  version  Show the version information.
 ```

@@ -1,71 +1,75 @@
 package main
 
 import (
+	"context"
 	"flag"
-	"fmt"
 	"os"
+	"os/signal"
+	"syscall"
 
+	"github.com/genuinetools/pkg/cli"
 	"github.com/jessfraz/battery/version"
 	"github.com/sirupsen/logrus"
-)
-
-const (
-	// BANNER is what is printed for help/info output.
-	BANNER = ` _           _   _
-| |__   __ _| |_| |_ ___ _ __ _   _
-| '_ \ / _` + "`" + ` | __| __/ _ \ '__| | | |
-| |_) | (_| | |_| ||  __/ |  | |_| |
-|_.__/ \__,_|\__|\__\___|_|   \__, |
-                              |___/
-
- Linux battery status checker.
- Version: %s
- Build: %s
-
-`
 )
 
 var (
 	name  string
 	debug bool
-	vrsn  bool
 )
 
-func init() {
-	// parse flags
-	flag.StringVar(&name, "name", "BAT0", "name of your battery")
-
-	flag.BoolVar(&vrsn, "version", false, "print version and exit")
-	flag.BoolVar(&vrsn, "v", false, "print version and exit (shorthand)")
-	flag.BoolVar(&debug, "d", false, "run in debug mode")
-
-	flag.Usage = func() {
-		fmt.Fprint(os.Stderr, fmt.Sprintf(BANNER, version.VERSION, version.GITCOMMIT))
-		flag.PrintDefaults()
-	}
-
-	flag.Parse()
-
-	if vrsn {
-		fmt.Printf("battery version %s, build %s", version.VERSION, version.GITCOMMIT)
-		os.Exit(0)
-	}
-
-	// set log level
-	if debug {
-		logrus.SetLevel(logrus.DebugLevel)
-	}
-}
-
 func main() {
-	battery, err := New(name)
-	if err != nil {
-		logrus.Fatal(err)
+	// Create a new cli program.
+	p := cli.NewProgram()
+	p.Name = "battery"
+	p.Description = "Linux battery status checker"
+
+	// Set the GitCommit and Version.
+	p.GitCommit = version.GITCOMMIT
+	p.Version = version.VERSION
+
+	// Setup the global flags.
+	p.FlagSet = flag.NewFlagSet("global", flag.ExitOnError)
+	p.FlagSet.StringVar(&name, "name", "BAT0", "name of your battery")
+
+	p.FlagSet.BoolVar(&debug, "d", false, "enable debug logging")
+
+	// Set the before function.
+	p.Before = func(ctx context.Context) error {
+		// Set the log level.
+		if debug {
+			logrus.SetLevel(logrus.DebugLevel)
+		}
+
+		return nil
 	}
 
-	if err := battery.GetStatus(); err != nil {
-		logrus.Fatal(err)
+	// Set the main program action.
+	p.Action = func(ctx context.Context, args []string) error {
+		// On ^C, or SIGTERM handle exit.
+		c := make(chan os.Signal, 1)
+		signal.Notify(c, os.Interrupt)
+		signal.Notify(c, syscall.SIGTERM)
+		go func() {
+			for sig := range c {
+				logrus.Infof("Received %s, exiting.", sig.String())
+				os.Exit(0)
+			}
+		}()
+
+		battery, err := New(name)
+		if err != nil {
+			logrus.Fatal(err)
+		}
+
+		if err := battery.GetStatus(); err != nil {
+			logrus.Fatal(err)
+		}
+
+		logrus.Infoln(battery.String())
+
+		return nil
 	}
 
-	logrus.Infoln(battery.String())
+	// Run our program.
+	p.Run()
 }
