@@ -43,14 +43,6 @@ func getFloat(filepath string) (value float64, err error) {
 	return strconv.ParseFloat(strings.TrimSpace(string(file)), 64)
 }
 
-func getInt(filepath string) (value int, err error) {
-	file, err := ioutil.ReadFile(filepath)
-	if err != nil {
-		return value, err
-	}
-	return strconv.Atoi(strings.TrimSpace(string(file)))
-}
-
 // GetStatus updates the Battery object with the current state of the battery
 func (battery *Battery) GetStatus() (err error) {
 	// get status
