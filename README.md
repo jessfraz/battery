@@ -1,3 +1,15 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**
+
+- [Battery](#battery)
+  - [Installation](#installation)
+      - [Binaries](#binaries)
+      - [Via Go](#via-go)
+  - [Usage](#usage)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Battery
 
 [![make-all](https://github.com/jessfraz/battery/workflows/make%20all/badge.svg)](https://github.com/jessfraz/battery/actions?query=workflow%3A%22make+all%22)
