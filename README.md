@@ -1,6 +1,7 @@
 # Battery
 
-[![Travis CI](https://img.shields.io/travis/jessfraz/battery.svg?style=for-the-badge)](https://travis-ci.org/jessfraz/battery)
+[![make-all](https://github.com/jessfraz/battery/workflows/make%20all/badge.svg)](https://github.com/jessfraz/battery/actions?query=workflow%3A%22make+all%22)
+[![make-image](https://github.com/jessfraz/battery/workflows/make%20image/badge.svg)](https://github.com/jessfraz/battery/actions?query=workflow%3A%22make+image%22)
 [![GoDoc](https://img.shields.io/badge/godoc-reference-5272B4.svg?style=for-the-badge)](https://godoc.org/github.com/jessfraz/battery)
 
 Battery status getter written in Go.
